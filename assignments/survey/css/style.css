@@ -1,0 +1,66 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400,700);
+@import url(http://fonts.googleapis.com/css?family=Nunito:300,400,700);
+
+body {
+	background: #b3b3b0;
+	font: 300 16px 'Nunito', sans-serif;
+}
+
+h1,
+h2,
+h3,
+.logo {
+	font: 600 30px Arial,sans-serif;
+}
+
+img {
+	max-width: 100%;
+}
+
+header {
+	background: #333;
+	background: -webkit-linear-gradient(top,#646464 0,#0e0e0e 100%);
+	background: -ms-linear-gradient(top,#646464 0,#0e0e0e 100%);
+	background: linear-gradient(to bottom,#646464 0,#0e0e0e 100%);
+	border-top: 1px solid #444;
+	color: #fff;
+}
+
+label {
+	font-weight: 900;
+}
+
+input[type=checkbox], input[type=radio] {
+	margin: 4px 5px 0 0;
+}
+
+.wrapper {
+	background-color: #f8f8f8;
+	box-shadow: 0 0 8px rgba(0,0,0,0.7);
+}
+
+.logo {
+	color: #FFFFFF;
+	font-size: 35px;
+	text-decoration: none;
+	padding: 10px 0;
+}
+.logo:hover {
+	color: #FFFFFF;
+	font-size: 35px;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.sidebar .row {
+	margin-bottom: 20px;
+}
+
+.btn {
+	font-size: 18px;
+}
+
+.choice div {
+	display: inline-block;
+}
