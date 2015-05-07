@@ -27,12 +27,35 @@ header {
 	color: #fff;
 }
 
+footer {
+	margin-top: 20px;
+	font-weight: 900;
+}
+
 label {
 	font-weight: 900;
 }
 
 input[type=checkbox], input[type=radio] {
-	margin: 4px 5px 0 0;
+	margin: 4px 5px 0 20px;
+}
+
+caption {
+	font-weight: 900;
+	font-size: 23px;
+}
+
+th,
+td {
+	padding: 0px 5px;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+	background-color: rgba(63, 62, 62, 0.1);
+}
+
+.table > tbody > tr > td {
+	padding: 3px 8px;
 }
 
 .wrapper {
@@ -50,7 +73,6 @@ input[type=checkbox], input[type=radio] {
 	color: #FFFFFF;
 	font-size: 35px;
 	text-decoration: none;
-	cursor: pointer;
 }
 
 .sidebar .row {
@@ -61,6 +83,23 @@ input[type=checkbox], input[type=radio] {
 	font-size: 18px;
 }
 
+.category {
+	margin-bottom: 20px;
+}
+
 .choice div {
 	display: inline-block;
+}
+
+.movie-title {
+	font: 900 25px Arial,sans-serif;
+}
+
+.movie-poster {
+	width: 100%;
+}
+
+.survey-choice {
+	margin: 0 10px;
+	font-weight: 500;
 }

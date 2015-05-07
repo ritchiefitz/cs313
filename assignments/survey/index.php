@@ -1,6 +1,16 @@
 <?php
-	session_start();
+	
 	define(SITE_ROOT, $_SERVER['DOCUMENT_ROOT']);
+
+	session_start();
+	
+	if (empty($_SESSION['started'])) {
+		$_SESSION['started'] = True;
+	}
+	else {
+		echo "User should be redirected!";
+		header('Location: results.php');
+	}
 
 	include (SITE_ROOT . "/assignments/survey/modules/header.php");
 ?>
@@ -10,7 +20,7 @@
 			<h2>Survey</h2>
 			<form action="results.php" method="post">
 				<label for="gender">Gender:</label> <br>
-				<input type="radio" name="gender" value="Male"> Male <br>
+				<input type="radio" name="gender" value="Male" required> Male <br>
 				<input type="radio" name="gender" value="Female"> Female <br>
 				<br>
 				<label for="age">Age:</label>
@@ -34,23 +44,23 @@
 				<br>
 				<br>
 				<label for="often">How often do you see movies in the theatre?</label> <br>
-				<input type="radio" name="often" value="Once or twice a week."> Once or twice a week. <br>
+				<input type="radio" name="often" value="Once or twice a week." required> Once or twice a week. <br>
 				<input type="radio" name="often" value="Once or twice a month."> Once or twice a month. <br>
 				<input type="radio" name="often" value="Once or twice every few months."> Once or twice every few months. <br>
 				<input type="radio" name="often" value="Once or twice a year."> Once or twice a year. <br>
 				<br>
 				<label for="remake">Are re-makes of old films a good idea?</label> <br>
-				<input type="radio" name="remake" value="Yes"> Yes <br>
+				<input type="radio" name="remake" value="Yes" required> Yes <br>
 				<input type="radio" name="remake" value="No"> No <br>
 				<br>
 				<label for="theater">Preferred Theater: </label> <br>
-				<input type="radio" name="theater" value="Fat Cats"> Fat Cats <br>
+				<input type="radio" name="theater" value="Fat Cats" required> Fat Cats <br>
 				<input type="radio" name="theater" value="Paramount 5"> Paramount 5 <br>
 				<input type="radio" name="theater" value="Teton Vu Drive In"> Teton Vu Drive In <br>
 				<input type="radio" name="theater" value="Edwards Cinema"> Edwards Cinema <br>
 				<br>
 				<label for="movie">Which movie are you most excited to see?</label> <br>
-				<input type="radio" name="movie" value="Avengers"> Avengers <br>
+				<input type="radio" name="movie" value="Avengers" required> Avengers <br>
 				<input type="radio" name="movie" value="Star Wars VII"> Star Wars VII <br>
 				<input type="radio" name="movie" value="Jurassic World"> Jurassic World <br>
 				<input type="radio" name="movie" value="Inside Out"> Inside Out <br>

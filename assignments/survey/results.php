@@ -1,7 +1,10 @@
 <?php
+	session_start();
+
 	define(SITE_ROOT, $_SERVER['DOCUMENT_ROOT']);
 	
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
 		$survey = [];
 		$survey['gender'] = $_POST["gender"];
 		$survey['age'] = $_POST["age"];
@@ -106,29 +109,71 @@
 	}
 
 	function display_results($category, $category_title) {
+		arsort($category);
+		$count = 1;
 		?>
 		<div class="row category">
 			<div class="col-sm-12">
-				<h3><?php echo $category_title; ?></h3>
-				<?php foreach ($category as $option => $votes): ?>
-					<div class="choice">
-						<div class="option"><?php echo $option; ?>: </div>
-						<div class="votes"><?php echo $votes; ?></div>
-					</div>
-				<?php endforeach; ?>
+				<table class="table table-striped">
+					<caption><?php echo $category_title; ?> Rank</caption>
+					<thead>
+						<tr>
+							<th>Rank</th>
+							<th>Option</th>
+							<th>Votes</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($category as $option => $votes): ?>
+						<tr>
+							<td><?php echo $count; ?></td>
+							<td><?php echo $option; ?></td>
+							<td><?php echo $votes; ?></td>
+						</tr>
+					<?php
+						$count += 1;
+						endforeach;
+					?>
+					</tbody>
+				</table>
 			</div>
 		</div>
 		<?php
 	}
 ?>
 <?php include (SITE_ROOT . "/assignments/survey/modules/header.php"); ?>
-	<div class="content">
-		<h2>Raw Results</h2>
-		<?php display_results($genderQues, "Gender"); ?>
-		<?php display_results($ageQues, "Age"); ?>
-		<?php display_results($oftenQues, "Often"); ?>
-		<?php display_results($remakeQues, "Remake"); ?>
-		<?php display_results($theaterQues, "Theater"); ?>
-		<?php display_results($movieQues, "Movie"); ?>
+	<div class="row content">
+		<div class="col-sm-12">
+			<div class="col-sm-8">
+				<h2>Raw Results</h2>
+				<div class="col-sm-6">
+					<?php display_results($genderQues, "Gender"); ?>
+					<?php display_results($ageQues, "Age"); ?>
+					<?php display_results($oftenQues, "How often?"); ?>
+				</div>
+				<div class="col-sm-6">
+					<?php display_results($remakeQues, "Remake"); ?>
+					<?php display_results($theaterQues, "Theater"); ?>
+					<?php display_results($movieQues, "Movie"); ?>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<h2>Result Meanings</h2>
+				<p><strong><?php echo array_search(max($genderQues),$genderQues); ?>'s</strong> are more likely to go see movies.</p>
+				<p>Generally people <strong><?php echo array_search(max($ageQues),$ageQues); ?> years old</strong> are more likely to go see movies.</p>
+				<p>Generally people go to the movies <strong><?php echo strtolower(array_search(max($oftenQues),$oftenQues)); ?></strong></p>
+				<p>Generally people believe it is a <strong><?php echo (array_search(max($remakeQues),$remakeQues) == "Yes") ? "good" : "bad"; ?> idea to remake old movies.</strong></p>
+				<p>People are more likely to go to <strong><?php echo array_search(max($theaterQues),$theaterQues); ?></strong> to see movies.</p>
+				<p>The movie that everyone is most excited to see is...</p>
+
+				<?php 
+					$winning_movie = array_search(max($movieQues),$movieQues);
+					$img_path = 'images/' . str_replace(' ', '-', strtolower($winning_movie)) . '.jpg';
+				?>
+
+				<p class="movie-title text-center"><?php echo $winning_movie; ?></p>
+				<img class="movie-poster" src="<?php echo $img_path; ?>" alt="">
+			</div>
+		</div>
 	</div>
 <?php include (SITE_ROOT . "/assignments/survey/modules/footer.php"); ?>
