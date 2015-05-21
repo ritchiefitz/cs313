@@ -6,6 +6,7 @@
 		<h3>PHP Assignments</h3>
 		<ul>
 			<li><a href="/assignments/survey/">PHP Survey</a></li>
+			<li><a href="/assignments/iris/">PHP Project</a></li>
 		</ul>
 	</div>
 	<div class="col-sm-3 sidebar">
