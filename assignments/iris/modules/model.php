@@ -1,4 +1,7 @@
 <?php
+
+include("password.php");
+
 class IrisModel {
 	private $server;
 	private $database;
