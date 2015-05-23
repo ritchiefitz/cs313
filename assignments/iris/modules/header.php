@@ -1,3 +1,10 @@
+<?php
+	session_start();
+	define("SITE_ROOT", $_SERVER['DOCUMENT_ROOT'] . "/assignments/iris/");
+
+	include (SITE_ROOT . "modules/controller.php");
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,9 +26,7 @@
 			</div>
 			<nav class="col-sm-9 text-right">
 				<ul>
-					<li>Learn More</li>
-					<li>About Us</li>
-					<li>Contact Us</li>
+					<li>Where lifes greatest moments are stored.</li>
 				</ul>
 			</nav>
 		</header>

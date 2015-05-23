@@ -114,6 +114,63 @@ class IrisModel {
 			return $page;
 		} catch (Exception $e) {
 			echo "An error has occured while retriving page from database";
+			return false;
+		}
+	}
+
+	public function validateUser($username, $password) {
+		$db_conn = $this->getDBConnection();
+		$un_valid_user = null;
+
+		try {
+			$query = 'SELECT * FROM user WHERE username = :username';
+			$statement = $db_conn->prepare($query);
+			$statement->bindValue(':username', $username);
+			$statement->execute();
+			$un_valid_user = $statement->fetchAll()[0];
+		} catch (Exception $e) {
+			echo "An error has occured while retriving journal from database";
+			return false;
+		}
+
+		if ($un_valid_user != null) {
+			if (password_verify($password, $un_valid_user['password'])) {
+				$valid_user = [];
+				$valid_user['uid'] = $un_valid_user['uid'];
+				$valid_user['username'] = $un_valid_user['username'];
+				$valid_user['email'] = $un_valid_user['email'];
+				$valid_user['first_name'] = $un_valid_user['first_name'];
+				$valid_user['last_name'] = $un_valid_user['last_name'];
+
+				return $valid_user;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	public function searchContent($uid, $search, $journal) {
+		$db_conn = $this->getDBConnection();
+
+		try {
+			$query = "SELECT p.title
+			          ,		 p.event_date
+			          ,		 p.page_number
+					  FROM page p
+					  WHERE p.content LIKE :search
+					  AND uid = :uid
+					  AND jid = :jid
+					  LIMIT 5";
+		  	$statement = $db_conn->prepare($query);
+		  	$statement->bindValue(":search", '%'.$search.'%');
+		  	$statement->bindValue(":uid", $uid);
+		  	$statement->bindValue(":jid", $journal);
+		  	$statement->execute();
+		  	$matched_pages = $statement->fetchAll();
+		  	return $matched_pages;
+		} catch (Exception $e) {
+			echo "An error has occured while searching";
+			return false;
 		}
 	}
 }

@@ -8,9 +8,10 @@ class IrisController {
 	private $view;
 	private $user;
 
-	public function __construct() {
+	public function __construct($user) {
 		$this->model = new IrisModel();
 		$this->view = new IrisView();
+		$this->user = $user;
 	}
 
 	public function setUser($user) {
@@ -29,8 +30,8 @@ class IrisController {
 		return $this->model->getPages($this->user['uid'], $jid);
 	}
 
-	public function getUser($uid) {
-		return $this->model->getUser($uid);
+	public function getUser() {
+		return $this->user;
 	}
 
 	public function getJournal($jid) {
@@ -39,6 +40,12 @@ class IrisController {
 
 	public function getPage($jid, $pid) {
 		return $this->model->getPage($this->user['uid'], $jid, $pid);
+	}
+
+	public function validateUser($username, $password) {
+		$valid_user = $this->model->validateUser($username, $password);
+		$this->user = $valid_user;
+		return $valid_user;
 	}
 
 	public function displayJournalSidebar() {
@@ -51,6 +58,11 @@ class IrisController {
 
 	public function displayJournal($jid) {
 		$this->view->displayJournal($this->getJournal($jid), $this->getPages($jid));
+	}
+
+	public function searchContent($search, $journal) {
+		$matching_pages = $this->model->searchContent($this->user['uid'], $search, $journal);
+		return $this->view->displaySearchResults($matching_pages);
 	}
 }
 ?>

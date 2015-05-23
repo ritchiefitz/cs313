@@ -50,6 +50,30 @@ class IrisView {
 		echo '<div class="hard last"></div>';
 		echo '</div> <!-- End of flipbook -->';
 	}
+
+	public function displaySearchResults($matched_pages) {
+		$html = '<div class="matched-results">';
+		if ($matched_pages) {
+			$html .= "<h2>Results</h2>";
+
+			foreach ($matched_pages as $page) {
+				$html .= '<div class="matched-result">';
+				$html .= '<div class="row">';
+				$html .= '<div class="col-sm-4 title">'.$page['title'].'</div>';
+				$html .= '<div class="col-sm-4 date">'.$page['event_date'].'</div>';
+				$html .= '<div class="col-sm-4 number">'.$page['page_number'].'</div>';
+				$html .= '</div>';
+				$html .= '</div>';
+			}
+
+			$html .= '</div>';
+		}
+		else {
+			$html .= "<h2>No Results</h2>";
+		}
+
+		return $html;
+	}
 }
 
 ?>

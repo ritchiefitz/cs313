@@ -9,7 +9,6 @@ CREATE TABLE user
 , password		VARCHAR(80)		NOT NULL
 , first_name	VARCHAR(30)		NOT NULL
 , last_name		VARCHAR(30)		NOT NULL
-, created		DATETIME		NOT NULL		DEFAULT UTC_DATE()
 );
 
 CREATE TABLE journal
@@ -17,7 +16,6 @@ CREATE TABLE journal
 , uid			INT UNSIGNED 	NOT NULL
 , title			VARCHAR(100)	NOT NULL
 , theme			VARCHAR(30)		NOT NULL
-, created		DATETIME		NOT	NULL		DEFAULT UTC_DATE()
 , FOREIGN KEY (uid) REFERENCES user(uid)
 );
 
@@ -29,7 +27,6 @@ CREATE TABLE page
 , event_date	DATE 			NOT NULL
 , content		TEXT			NOT NULL
 , page_number	INT UNSIGNED	NOT NULL
-, created		DATETIME		NOT	NULL		DEFAULT UTC_DATE()
 , FOREIGN KEY (jid) REFERENCES journal(jid)
 , FOREIGN KEY (uid) REFERENCES user(uid)
 );

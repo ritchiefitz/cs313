@@ -24,7 +24,13 @@ header {
 	background: $red;
 	box-shadow: 0 0 5px 5px rgba(5, 5, 5, 0.73);
 	position: relative;
-  	z-index: 999;
+	z-index: 999;
+
+	li {
+		background: url(/assignments/iris/images/begin-quotes.png) no-repeat top left, url(/assignments/iris/images/end-quotes.png) no-repeat top right;
+		background-size: 5%;
+  		padding: 0 24px;
+	}
 }
 
 footer {
@@ -44,7 +50,7 @@ nav {
 
 	ul {
 		margin: 0;
-  		padding: 0;
+		padding: 0;
 	}
 
 	li {
@@ -82,9 +88,65 @@ a {
 	text-decoration: none;
 }
 
+.login-wrapper {
+	display: inline-block;
+	width: 700px;
+	position: absolute;
+	top: 55px;
+	left: 50%;
+	margin-left: -350px;
+	background: #FFFFFF;
+	box-shadow: 0 0 5px 5px rgba(5, 5, 5, 0.73);
+	padding: 0 1% 15px;
+	text-align: center;
+}
+
+.form-control,
+.btn,
+input {
+	font-size: 18px;
+}
+
+.btn-default {
+	color: #FFF;
+	background-color: #96242f;
+	border-color: #ccc;
+	border-radius: 0;
+	padding: 7px 35px;
+}
+
+.btn-default:hover {
+	color: #FFF;
+	background-color: rgba(150, 36, 47, 0.85)
+}
+
+.half-side {
+	display: inline-block;
+	width: 46%;
+	text-align: center;
+	vertical-align: top;
+  	margin: 0 1%;
+}
+
+.login-logo {
+	color: $red;
+	font-family: $logoFont;
+	font-size: 5em;
+	text-align: center;
+}
+
 #flipbook {
 	margin-top: 20px;
 }
+#flipbook .shadow,
+#flipbook.shadow{
+  -webkit-box-shadow: 0 0 5px 5px rgba(5, 5, 5, 0.73);
+  -moz-box-shadow: 0 0 5px 5px rgba(5, 5, 5, 0.73);
+  -ms-box-shadow: 0 0 5px 5px rgba(5, 5, 5, 0.73);
+  -o-box-shadow: 0 0 5px 5px rgba(5, 5, 5, 0.73);
+  box-shadow: 0 0 5px 5px rgba(5, 5, 5, 0.73);
+}
+
 .hard.page {
 	background: #736855;
 }
@@ -113,19 +175,19 @@ a {
 
 	.title {
 		font-size: 2em;
-  		font-family: $logoFont;
+		font-family: $logoFont;
 	}
 
 	.date {
 		font-family: $headerFont;
-  		margin-bottom: 15px;
-  		font-size: 1.2em;
+		margin-bottom: 15px;
+		font-size: 1.2em;
 	}
 
 	.page-number {
 		font-family: $headerFont;
-  		margin-bottom: 15px;
-  		font-size: 1.2em;
+		margin-bottom: 15px;
+		font-size: 1.2em;
 		position: absolute;
 		top: 0;
 		right: 10px;
@@ -147,33 +209,33 @@ a {
 	background: #FFFFFF;
 	box-shadow: 0 0 5px 5px rgba(5, 5, 5, 0.73);
 	position: relative;
-  	top: -12px;
-  	padding: 25px 15px 15px;
+	top: -12px;
+	padding: 25px 15px 15px;
 	
 	h2 {
-		  font-size: 1.9em;
+		font-size: 1.9em;
 	}
 	
-  	ul {
-  		margin: 0;
-  		padding: 0;
-  	}
+	ul {
+		margin: 0;
+		padding: 0;
+	}
 
-  	li {
-  		list-style-type: none;
-  	}
+	li {
+		list-style-type: none;
+	}
 
-  	a {
-  		font-size: 1em;
-  	}
+	a {
+		font-size: 1em;
+	}
 }
 
 .content {
 	background: #FFFFFF;
 	box-shadow: 0 0 5px 5px rgba(5, 5, 5, 0.73);
 	position: relative;
-  	top: -12px;
-  	padding: 25px 15px 15px;
+	top: -12px;
+	padding: 25px 15px 15px;
 }
 
 .journals {
@@ -192,5 +254,27 @@ a {
 		display: inline-block;
 		line-height: 1;
 		margin: 50px 15px 0 50px;
+	}
+}
+
+.matched-result {
+	font-size: 1.3em;
+	padding: 5px 0;
+}
+
+.matched-result:nth-child(even) {
+	background: rgba(179, 162, 132, 0.56);
+}
+
+.matched-result:hover {
+	background: rgba(150, 36, 47, 0.72);
+	cursor: pointer;
+}
+
+.account-info {
+	font-size: 1.5em;
+
+	label {
+		width: 110px;
 	}
 }
