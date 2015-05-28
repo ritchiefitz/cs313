@@ -1,7 +1,41 @@
 $(document).ready(function () {
-
+	settings();
 	journalSettings();
 	searchSettings();
+
+	function getUrlParameter(sParam)
+	{
+	    var sPageURL = window.location.search.substring(1);
+	    var sURLVariables = sPageURL.split('&');
+	    for (var i = 0; i < sURLVariables.length; i++) 
+	    {
+	        var sParameterName = sURLVariables[i].split('=');
+	        if (sParameterName[0] == sParam) 
+	        {
+	            return sParameterName[1];
+	        }
+	    }
+	}
+
+	function settings() {
+		if ($("#verify_pwd").length) {
+			$("#register").submit(function () {
+				var password = $("#password").val();
+				var verify_pwd = $("#verify_pwd").val();
+
+				if (password != verify_pwd) {
+					$(".password").addClass("has-error");
+					
+					$(".error-message").text("Passwords Must Match");
+					
+					return false;
+				}
+				else {
+					return true;
+				}
+			});
+		}
+	}
 
 	function searchSettings() {
 		$('#search').bind('click', function () {
@@ -59,5 +93,22 @@ $(document).ready(function () {
 				$("#flipbook").turn('next');
 			}
 		});
+
+		$(document).on({
+			mouseenter: function () {
+				var $form = $(this).find("#edit-form");
+				$form.show("fast");
+			},
+			mouseleave: function () {
+				var $form = $(this).find("#edit-form");
+				$form.hide();
+			}
+		}, '.journal-page-wrapper');
+
+		if ($("#flipbook").length > 0 && getUrlParameter('pn')) {
+			var pageNumber = (getUrlParameter('pn') * 1) + 2;
+			console.log("PN: " + pageNumber);
+			$("#flipbook").turn("page", pageNumber);
+		}
 	}
 });

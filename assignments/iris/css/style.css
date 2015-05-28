@@ -211,4 +211,52 @@ input {
   .account-info label {
     width: 110px; }
 
+.custom-page {
+  display: inline-block;
+  height: 750px;
+  width: 548px;
+  background: #FFFFFF;
+  padding: 20px 2%;
+  margin: 20px;
+  box-shadow: 0 0 5px 5px rgba(5, 5, 5, 0.73); }
+  .custom-page input[type=text],
+  .custom-page textarea {
+    border: 0;
+    box-shadow: none;
+    padding-left: 0; }
+  .custom-page #page-title {
+    font-size: 2em;
+    font-family: "Nothing You Could Do", cursive;
+    height: auto; }
+  .custom-page #page-date {
+    font-size: 1.2em;
+    font-family: "Vollkorn", serif; }
+  .custom-page #page-content {
+    height: 545px;
+    width: 100%;
+    font-size: 1.15em;
+    resize: none; }
+  .custom-page .form-group:first-of-type {
+    margin: 0; }
+
+#edit-form {
+  width: 100%;
+  height: 100%;
+  display: none;
+  position: absolute;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.71); }
+
+#edit-submit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -71px;
+  margin-top: -40px; }
+
+.form-control-inline {
+  min-width: 0;
+  width: auto;
+  display: inline; }
+
 /*# sourceMappingURL=style.css.map */

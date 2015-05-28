@@ -1,6 +1,6 @@
 <?php
 
-include("password.php");
+include(SITE_ROOT . "lib/password.php");
 
 class IrisModel {
 	private $server;
@@ -80,7 +80,7 @@ class IrisModel {
 			$statement = $db_conn->prepare($query);
 			$statement->bindValue(':uid', $uid);
 			$statement->execute();
-			$user = $statement->fetchAll()[0];
+			$user = $statement->fetch();
 			return $user;
 		} catch (Exception $e) {
 			echo "An error has occured while retriving user from database";
@@ -96,24 +96,23 @@ class IrisModel {
 			$statement->bindValue(':uid', $uid);
 			$statement->bindValue(':jid', $jid);
 			$statement->execute();
-			$journal = $statement->fetchAll()[0];
+			$journal = $statement->fetch();
 			return $journal;
 		} catch (Exception $e) {
 			echo "An error has occured while retriving journal from database";
 		}
 	}
 
-	public function getPage($uid, $jid, $pid) {
+	public function getPage($uid, $pid) {
 		$db_conn = $this->getDBConnection();
 
 		try {
-			$query = 'SELECT * FROM page WHERE uid = :uid AND jid = :jid AND pid = :pid';
+			$query = 'SELECT * FROM page WHERE uid = :uid AND pid = :pid';
 			$statement = $db_conn->prepare($query);
 			$statement->bindValue(':uid', $uid);
-			$statement->bindValue(':jid', $jid);
 			$statement->bindValue(':pid', $pid);
 			$statement->execute();
-			$page = $statement->fetchAll()[0];
+			$page = $statement->fetch();
 			return $page;
 		} catch (Exception $e) {
 			echo "An error has occured while retriving page from database";
@@ -130,9 +129,9 @@ class IrisModel {
 			$statement = $db_conn->prepare($query);
 			$statement->bindValue(':username', $username);
 			$statement->execute();
-			$un_valid_user = $statement->fetchAll()[0];
+			$un_valid_user = $statement->fetch();
 		} catch (Exception $e) {
-			echo "An error has occured while retriving journal from database";
+			echo "An error has occured while validating user";
 			return false;
 		}
 
@@ -149,6 +148,52 @@ class IrisModel {
 			} else {
 				return false;
 			}
+		}
+	}
+
+	public function registerUser($first_name, $last_name, $username, $email, $password) {
+		$db_conn = $this->getDBConnection();
+		$un_valid_user = null;
+
+		$password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
+
+		try {
+			$query = 'INSERT INTO user
+					  ( username
+					  , email
+					  , password
+					  , first_name
+					  , last_name
+					  )
+					  VALUES
+					  ( :username
+					  , :email
+					  , :password
+					  , :first_name
+					  , :last_name
+					  )';
+			$statement = $db_conn->prepare($query);
+			$statement->bindValue(':username', $username);
+			$statement->bindValue(':email', $email);
+			$statement->bindValue(':password', $password);
+			$statement->bindValue(':first_name', $first_name);
+			$statement->bindValue(':last_name', $last_name);
+			$statement->execute();
+			$un_valid_user = $this->getUser($db_conn->lastInsertId());
+		} catch (Exception $e) {
+			echo "An error has occured while registering user";
+			return false;
+		}
+
+		if ($un_valid_user != null) {
+			$valid_user = [];
+			$valid_user['uid'] = $un_valid_user['uid'];
+			$valid_user['username'] = $un_valid_user['username'];
+			$valid_user['email'] = $un_valid_user['email'];
+			$valid_user['first_name'] = $un_valid_user['first_name'];
+			$valid_user['last_name'] = $un_valid_user['last_name'];
+
+			return $valid_user;
 		}
 	}
 
@@ -173,6 +218,109 @@ class IrisModel {
 		  	return $matched_pages;
 		} catch (Exception $e) {
 			echo "An error has occured while searching";
+			return false;
+		}
+	}
+
+	public function addPage($jid, $uid, $page_title, $page_date, $page_content) {
+		$db_conn = $this->getDBConnection();
+
+		// Get the next value for page_number
+		$number_statement = $db_conn->prepare("SELECT MAX(page_number) FROM page WHERE jid = :jid LIMIT 1");
+		$number_statement->bindValue(':jid', $jid);
+		$number_statement->execute();
+		$row = $number_statement->fetch();
+		$page_number = $row[0] + 1;
+
+		try {
+			$query = "INSERT INTO page
+					  ( jid
+					  , uid
+					  , title
+					  , event_date
+					  , content
+					  , page_number
+					  )
+					  VALUES
+					  ( :jid
+					  , :uid
+					  , :title
+					  , :event_date
+					  , :content
+					  , :page_number
+					  )";
+		  	$statement = $db_conn->prepare($query);
+		  	$statement->bindValue(":jid", $jid);
+		  	$statement->bindValue(":uid", $uid);
+		  	$statement->bindValue(":title", $page_title);
+		  	$statement->bindValue(":event_date", $page_date);
+		  	$statement->bindValue(":content", $page_content);
+		  	$statement->bindValue(":page_number", $page_number);
+		  	$statement->execute();
+		  	return $page_number;
+		} catch (Exception $e) {
+			echo "An error has occured while adding page.";
+			return false;
+		}
+	}
+
+	public function updatePage($uid, $pid, $page_title, $page_date, $page_content) {
+		$db_conn = $this->getDBConnection();
+
+		try {
+			$query = "UPDATE page
+					  SET title = :title
+					  ,   event_date = :event_date
+					  ,   content = :content
+					  WHERE uid = :uid
+					  AND pid = :pid";
+
+		  	$statement = $db_conn->prepare($query);
+		  	$statement->bindValue(":pid", $pid);
+		  	$statement->bindValue(":uid", $uid);
+		  	$statement->bindValue(":title", $page_title);
+		  	$statement->bindValue(":event_date", $page_date);
+		  	$statement->bindValue(":content", $page_content);
+		  	$statement->execute();
+		} catch (Exception $e) {
+			echo "An error has occured while updating page.";
+			return false;
+		}
+	}
+
+	public function addJournal($uid, $title) {
+		$db_conn = $this->getDBConnection();
+
+		try {
+			$query = "INSERT INTO journal
+					  (uid,title,theme)
+					  VALUES
+					  (:uid,:title,'default')";
+			$statement = $db_conn->prepare($query);
+			$statement->bindValue(":uid", $uid);
+			$statement->bindValue(":title", $title);
+			$statement->execute();
+		} catch (Exception $e) {
+			echo "An error has occured while adding journal.";
+			return false;
+		}
+	}
+
+	public function updateJournal($uid, $jid, $title) {
+		$db_conn = $this->getDBConnection();
+
+		try {
+			$query = "UPDATE journal
+					  SET title = :title
+					  WHERE uid = :uid
+					  AND jid = :jid";
+			$statement = $db_conn->prepare($query);
+			$statement->bindValue(":uid", $uid);
+			$statement->bindValue(":jid", $jid);
+			$statement->bindValue(":title", $title);
+			$statement->execute();
+		} catch (Exception $e) {
+			echo "An error has occured while adding journal.";
 			return false;
 		}
 	}
