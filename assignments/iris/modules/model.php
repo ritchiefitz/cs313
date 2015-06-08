@@ -19,6 +19,13 @@ class IrisModel {
 		$this->dsn = 'mysql:host=' . $this->server . ';dbname=' . $this->database;
 	}
 
+	/**
+	 * GET DATABASE CONNECTION
+	 *
+	 * This will return a connection to the database.
+	 * 
+	 * @return [PDO Object] a connection to the database using PDO
+	 */
 	private function getDBConnection() {
 		$db_connection = null;
 		try {
@@ -29,6 +36,13 @@ class IrisModel {
 		}
 	}
 
+	/**
+	 * GET USERS
+	 *
+	 * This will get all of the users.
+	 * 
+	 * @return [Multi-Dimentional Array] each index contains an associative array about each user.
+	 */
 	public function getUsers() {
 		$db_conn = $this->getDBConnection();
 
@@ -41,6 +55,14 @@ class IrisModel {
 		return $pages;
 	}
 
+	/**
+	 * GET JOURNALS
+	 *
+	 * This will return all the journals belonging to a user.
+	 * 
+	 * @param  INT 		$uid the id of the current user.
+	 * @return [Multi-Dimentional Array] each index contains an associative array about each journal.
+	 */
 	public function getJournals($uid) {
 		$db_conn = $this->getDBConnection();
 
@@ -56,6 +78,15 @@ class IrisModel {
 		}
 	}
 
+	/**
+	 * GET PAGES
+	 *
+	 * This will return all the pages that belong to the given user and journal.
+	 * 
+	 * @param  INT 		$uid 			 the id a user.
+	 * @param  INT 		$jid 			 the id a journal.
+	 * @return [Multi-Dimentional Array] each index contains an associative array about each page.
+	 */
 	public function getPages($uid, $jid) {
 		$db_conn = $this->getDBConnection();
 
@@ -72,6 +103,14 @@ class IrisModel {
 		}
 	}
 
+	/**
+	 * GET USER
+	 *
+	 * This will return a user with the given id.
+	 * 
+	 * @param  INT 		$uid 			the id a user.
+	 * @return [Associative Array]      contains information about the user.
+	 */
 	public function getUser($uid) {
 		$db_conn = $this->getDBConnection();
 
@@ -87,6 +126,16 @@ class IrisModel {
 		}
 	}
 
+	/**
+	 * GET JOURNAL
+	 *
+	 * This will return a journal that has the given id that belongs to a
+	 * specific user.
+	 * 
+	 * @param  INT 		$uid 			the id a user.
+	 * @param  INT 		$jid 			the id a journal.
+	 * @return [Associative Array]      contains information about the journal.
+	 */
 	public function getJournal($uid, $jid) {
 		$db_conn = $this->getDBConnection();
 
@@ -103,6 +152,16 @@ class IrisModel {
 		}
 	}
 
+	/**
+	 * GET Page
+	 *
+	 * This will return a page that has the given id that belongs to a
+	 * specific user.
+	 * 
+	 * @param  INT 		$uid 			the id a user.
+	 * @param  INT 		$pid 			the id a page.
+	 * @return [Associative Array]      contains information about the page.
+	 */
 	public function getPage($uid, $pid) {
 		$db_conn = $this->getDBConnection();
 
@@ -120,6 +179,16 @@ class IrisModel {
 		}
 	}
 
+	/**
+	 * VALIDATE USER
+	 *
+	 * Use the given username and password to verify that the user
+	 * actually exists.
+	 * 
+	 * @param  String $username       a string containing the passed in username.
+	 * @param  String $password 	  a string containing the passed in password.
+	 * @return Boolean                returns true if the user is valid otherwise returns false.
+	 */
 	public function validateUser($username, $password) {
 		$db_conn = $this->getDBConnection();
 		$un_valid_user = null;
@@ -151,6 +220,18 @@ class IrisModel {
 		}
 	}
 
+	/**
+	 * REGISTER USER
+	 *
+	 * This will add a new user to the application.
+	 * 
+	 * @param  String $first_name 		a string containing the wanted first_name.
+	 * @param  String $last_name  		a string containing the wanted last_name.
+	 * @param  String $username   		a string containing the wanted username.
+	 * @param  String $email      		a string containing the wanted email.
+	 * @param  String $password   		a string containing the wanted password.
+	 * @return Boolean             		returns user information otherwise returns false.
+	 */
 	public function registerUser($first_name, $last_name, $username, $email, $password) {
 		$db_conn = $this->getDBConnection();
 		$un_valid_user = null;
@@ -197,6 +278,16 @@ class IrisModel {
 		}
 	}
 
+	/**
+	 * SEARCH CONTENT
+	 *
+	 * This will return the pages that match.
+	 * 
+	 * @param  INT 		$uid     			the id for a user.
+	 * @param  String 	$search  			the string to search for.
+	 * @param  INT 		$journal 			the id for a journal.
+	 * @return [Multi-Dimentional Array] 	each index contains an associative array about each page.
+	 */
 	public function searchContent($uid, $search, $journal) {
 		$db_conn = $this->getDBConnection();
 
@@ -222,6 +313,18 @@ class IrisModel {
 		}
 	}
 
+	/**
+	 * ADD PAGE
+	 *
+	 * This will add a new page to the user and journal.
+	 * 
+	 * @param INT 		$jid          	the id of a journal.
+	 * @param INT 		$uid          	the id of a user.
+	 * @param String 	$page_title   	the data for the page_title field.
+	 * @param String 	$page_date    	the data for the page_date field.
+	 * @param String 	$page_content 	the data for the page_content field.
+	 * @return INT               		returns a number if we were able to add the page, or false if we failed.
+	 */
 	public function addPage($jid, $uid, $page_title, $page_date, $page_content) {
 		$db_conn = $this->getDBConnection();
 
@@ -264,6 +367,18 @@ class IrisModel {
 		}
 	}
 
+	/**
+	 * UPDATE PAGE
+	 *
+	 * This will update a page with the given content.
+	 * 
+	 * @param INT 		$uid          	the id of a user.
+	 * @param INT 		$pid          	the id of a page.
+	 * @param String 	$page_title   	the data for the page_title field.
+	 * @param String 	$page_date    	the data for the page_date field.
+	 * @param String 	$page_content 	the data for the page_content field.
+	 * @return Boolean               	returns false if we failed to update the page.
+	 */
 	public function updatePage($uid, $pid, $page_title, $page_date, $page_content) {
 		$db_conn = $this->getDBConnection();
 
@@ -288,6 +403,15 @@ class IrisModel {
 		}
 	}
 
+	/**
+	 * ADD JOURNAL
+	 *
+	 * This will add a new journal to the given user.
+	 * 
+	 * @param INT 		$uid   		the id of a user.
+	 * @param String 	$title 		the new title.
+	 * @return Boolean        		return false if the query failed.
+	 */
 	public function addJournal($uid, $title) {
 		$db_conn = $this->getDBConnection();
 
@@ -306,6 +430,16 @@ class IrisModel {
 		}
 	}
 
+	/**
+	 * UPDATE JOURNAL
+	 *
+	 * This will update a journal with the given content.
+	 * 
+	 * @param  INT 		$uid   		the id of a user.
+	 * @param  INT 		$jid   		the id of a journal.
+	 * @param  String  	$title 		the updated title.
+	 * @return Boolean        		return false if the query failed.
+	 */
 	public function updateJournal($uid, $jid, $title) {
 		$db_conn = $this->getDBConnection();
 
