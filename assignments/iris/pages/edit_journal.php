@@ -1,6 +1,7 @@
 <?php
 	include ($_SERVER['DOCUMENT_ROOT'] . "/assignments/iris/modules/header.php");
 
+	// Make sure user is logged in.
 	if (isset($_SESSION['logged-in'])) {
 		$iris = new IrisController($_SESSION['user']);
 
@@ -14,7 +15,7 @@
 	</div>
 	<div class="col-sm-10">
 		<div class="content">
-			<h1>Add Journal</h1>
+			<h1>Edit Journal</h1>
 			<form action="" method="post">
 				<input type="text" name="title" class="form-control form-control-inline" placeholder="Journal Title" value="<?php echo $journal['title']; ?>" required>
 				<input type="hidden" name="update_journal" value="true">
